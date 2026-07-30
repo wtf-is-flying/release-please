@@ -385,6 +385,41 @@
                 }
               },
               {
+                "description": "Configuration for the `python-workspace` plugin.",
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "description": "The name of the plugin.",
+                    "type": "string",
+                    "enum": ["python-workspace"]
+                  },
+                  "updateAllPackages": {
+                    "description": "Whether to force updating all packages regardless of the dependency tree. Defaults to `false`.",
+                    "type": "boolean"
+                  },
+                  "merge": {
+                    "description": "Whether to merge in-scope pull requests into a combined release pull request. Defaults to `true`.",
+                    "type": "boolean"
+                  },
+                  "lockfiles": {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "enum": ["global", "per-package"]
+                      },
+                      "path": {
+                        "type": "string"
+                      },
+                      "filename": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["mode"]
+                  }
+                }
+              },
+              {
                 "description": "Configuration for various `group-priority` plugin",
                 "type": "object",
                 "properties": {

@@ -31,6 +31,7 @@ import {SentenceCase} from '../plugins/sentence-case';
 import {GroupPriority} from '../plugins/group-priority';
 import {Logger} from '../util/logger';
 import {WorkspacePluginOptions} from '../plugins/workspace';
+import {PythonWorkspace} from '../plugins/python-workspace';
 
 export interface PluginFactoryOptions {
   type: PluginType;
@@ -96,6 +97,19 @@ const pluginFactories: Record<string, PluginBuilder> = {
     ),
   'maven-workspace': options =>
     new MavenWorkspace(
+      options.github,
+      options.targetBranch,
+      options.repositoryConfig,
+      {
+        ...options,
+        ...(options.type as WorkspacePluginOptions),
+        merge:
+          (options.type as WorkspacePluginOptions).merge ??
+          !options.separatePullRequests,
+      }
+    ),
+  'python-workspace': options =>
+    new PythonWorkspace(
       options.github,
       options.targetBranch,
       options.repositoryConfig,

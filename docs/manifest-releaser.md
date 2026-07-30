@@ -572,6 +572,48 @@ does _not_ update the dependencies, and the `cargo-workspace` plug-in must be
 used to update dependencies and bump all dependents — this is the recommended
 way of managing a Rust monorepo with release-please.
 
+### python-workspace
+
+The `python-workspace` plugin operates similarly to the `cargo-workspace`
+plugin, but on Python projects that use `pyproject.toml`. It builds a graph of
+local packages configured in release-please, updates `project.version` for
+packages that were directly bumped, patch-bumps dependents, rewrites affected
+workspace dependency lower bounds in `project.dependencies`, and updates the
+affected `uv.lock` files.
+
+This plugin currently supports PEP 621 `[project]` metadata only. It does not
+update Poetry metadata or optional dependency groups.
+
+```json
+{
+  "plugins": [
+    {
+      "type": "python-workspace",
+      "lockfiles": {
+        "mode": "global",
+        "path": "uv.lock"
+      }
+    }
+  ]
+}
+```
+
+If each package owns its own lockfile, use `per-package` mode instead:
+
+```json
+{
+  "plugins": [
+    {
+      "type": "python-workspace",
+      "lockfiles": {
+        "mode": "per-package",
+        "filename": "uv.lock"
+      }
+    }
+  ]
+}
+```
+
 ### maven-workspace
 
 The `maven-workspace` plugin operates similarly to the `node-workspace` plugin,

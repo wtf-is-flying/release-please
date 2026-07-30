@@ -1,0 +1,4 @@
+[project]
+name = "pkg-a"
+version = "1.2.3"
+dependencies = []

@@ -26,6 +26,7 @@ import {ManifestPlugin} from '../../src/plugin';
 import {GitHub} from '../../src';
 import {GroupPriority} from '../../src/plugins/group-priority';
 import {NodeWorkspace} from '../../src/plugins/node-workspace';
+import {PythonWorkspace} from '../../src/plugins/python-workspace';
 
 describe('PluginFactory', () => {
   let github: GitHub;
@@ -42,6 +43,7 @@ describe('PluginFactory', () => {
       'cargo-workspace',
       'maven-workspace',
       'node-workspace',
+      'python-workspace',
     ];
     const repositoryConfig: RepositoryConfig = {
       '.': {releaseType: 'simple'},
@@ -106,8 +108,11 @@ describe('PluginFactory', () => {
       const plugin = buildPlugin({
         github,
         type: {
-          type: 'node-workspace',
-          updatePeerDependencies: true,
+          type: 'python-workspace',
+          lockfiles: {
+            mode: 'per-package',
+            filename: 'uv.lock',
+          },
         },
         targetBranch: 'target-branch',
         repositoryConfig,
@@ -115,7 +120,7 @@ describe('PluginFactory', () => {
         separatePullRequests: false,
       });
       expect(plugin).to.not.be.undefined;
-      expect(plugin).instanceof(NodeWorkspace);
+      expect(plugin).instanceof(PythonWorkspace);
     });
   });
   describe('getPluginTypes', () => {

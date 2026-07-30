@@ -248,6 +248,19 @@ export interface WorkspacePluginConfig extends ConfigurablePluginType {
 export interface NodeWorkspacePluginConfig extends WorkspacePluginConfig {
   updatePeerDependencies?: boolean;
 }
+export type PythonWorkspaceLockfiles =
+  | {
+      mode: 'global';
+      path?: string;
+    }
+  | {
+      mode: 'per-package';
+      filename?: string;
+    };
+export interface PythonWorkspacePluginConfig extends WorkspacePluginConfig {
+  type: 'python-workspace';
+  lockfiles?: PythonWorkspaceLockfiles;
+}
 export interface GroupPriorityPluginConfig extends ConfigurablePluginType {
   groups: string[];
 }
@@ -258,6 +271,7 @@ export type PluginType =
   | LinkedVersionPluginConfig
   | SentenceCasePluginConfig
   | WorkspacePluginConfig
+  | PythonWorkspacePluginConfig
   | NodeWorkspacePluginConfig;
 
 /**
